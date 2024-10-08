@@ -18,7 +18,7 @@
 }
 
 .search-images-input:focus {
-  border-color: rgba(78, 117, 255, 1);
+  border-color: 1px, solid, rgba(78, 117, 255, 1);
 }
 
 .search-images-input::placeholder {

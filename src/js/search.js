@@ -19,9 +19,12 @@ btnSearch.addEventListener('click', event => {
 
   console.log(searchParams.toString());
 
-  const url = `https://pixabay.com/api/?${searchParams}`;
+  const url = `"<https://pixabay.com/api/?${searchParams}>"`;
+  const options = {
+    method: 'GET',
+  };
 
-  fetch(url)
+  fetch(url, options)
     .then(response => {
       if (!response.ok) {
         throw new Error(response.status);
