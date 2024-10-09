@@ -10,7 +10,7 @@ btnSearch.addEventListener('click', event => {
   console.log(searchImagesInput.value);
 
   const searchParams = new URLSearchParams({
-    key: 46374353,
+    key: '46374353-2f98dff3c8dab99fd2b2fa1f1',
     q: `"${inputImagesValue}"`,
     image_type: 'photo',
     orientation: 'horizontal',
@@ -19,12 +19,9 @@ btnSearch.addEventListener('click', event => {
 
   console.log(searchParams.toString());
 
-  const url = `"<https://pixabay.com/api/?${searchParams}>"`;
-  const options = {
-    method: 'GET',
-  };
+  const url = `https://pixabay.com/api/?${searchParams}`;
 
-  fetch(url, options)
+  fetch(url, { method: 'GET' })
     .then(response => {
       if (!response.ok) {
         throw new Error(response.status);
@@ -32,10 +29,12 @@ btnSearch.addEventListener('click', event => {
       return response.json();
     })
     .then(data => {
-      console.log(data);
+      if (data.hits.length === 0) {
+        throw new Error('No results found');
+      }
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       iziToast.error({
         title: '',
         message:
