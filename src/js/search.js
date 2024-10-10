@@ -6,11 +6,19 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const btnSearch = document.querySelector('.btn-search');
 const searchImagesInput = document.querySelector('.search-images-input');
 const gallery = document.querySelector('.gallery');
+const searchImages = document.querySelector('.search-images');
 
 btnSearch.addEventListener('click', event => {
   event.preventDefault();
   const inputImagesValue = searchImagesInput.value;
   console.log(searchImagesInput.value);
+
+  searchImages.insertAdjacentHTML(
+    'afterend',
+    `<div class="loader-div" id="loader-div"><span class="loader"></span></div>`
+  );
+
+  const loader = document.getElementById('loader-div');
 
   const searchParams = new URLSearchParams({
     key: '46374353-2f98dff3c8dab99fd2b2fa1f1',
@@ -29,6 +37,10 @@ btnSearch.addEventListener('click', event => {
       if (!response.ok) {
         throw new Error(response.status);
       }
+      if (!response.ok || response.ok) {
+        loader.style.display = 'none';
+      }
+
       return response.json();
     })
     .then(data => {
@@ -68,6 +80,7 @@ btnSearch.addEventListener('click', event => {
     })
     .catch(error => {
       console.error(error);
+      gallery.innerHTML = '';
       iziToast.error({
         title: '',
         message:
