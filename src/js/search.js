@@ -4,16 +4,17 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const btnSearch = document.querySelector('.btn-search');
-const searchImagesInput = document.querySelector('.search-images-input').value;
+const searchImagesInput = document.querySelector('.search-images-input');
 const gallery = document.querySelector('.gallery');
 
 btnSearch.addEventListener('click', event => {
   event.preventDefault();
+  const inputImagesValue = searchImagesInput.value;
   console.log(searchImagesInput.value);
 
   const searchParams = new URLSearchParams({
     key: '46374353-2f98dff3c8dab99fd2b2fa1f1',
-    q: searchImagesInput,
+    q: `'${inputImagesValue}'`,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
