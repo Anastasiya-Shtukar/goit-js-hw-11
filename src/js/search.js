@@ -1,9 +1,10 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const btnSearch = document.querySelector('.btn-search');
-const searchImagesInput = document.querySelector('.search-images-input');
-const inputImagesValue = searchImagesInput.value;
+const searchImagesInput = document.querySelector('.search-images-input').value;
 const gallery = document.querySelector('.gallery');
 
 btnSearch.addEventListener('click', event => {
@@ -12,7 +13,7 @@ btnSearch.addEventListener('click', event => {
 
   const searchParams = new URLSearchParams({
     key: '46374353-2f98dff3c8dab99fd2b2fa1f1',
-    q: `'${inputImagesValue}'`,
+    q: searchImagesInput,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
@@ -33,7 +34,8 @@ btnSearch.addEventListener('click', event => {
       if (data.hits.length === 0) {
         throw new Error('No results found');
       }
-      const galleryImages = data
+
+      const galleryImages = data.hits
         .map(
           image => `<li class="gallery-item">
   <a class="gallery-link" href="${image.largeImageURL}">
@@ -45,16 +47,23 @@ btnSearch.addEventListener('click', event => {
     />
   </a>
   <div class="characteristics-photo">
-  <div class="likes">Likes:${image.likes}</div>
-  <div class="views">Views:${image.views}</div>
-  <div class="comments">Comments:${image.comments}</div>
-  <div class="downloads">Downloads:${image.downloads}</div>
+  <p class="characteristic">Likes:<span class="characteristic-span">${image.likes}</span></p>
+  <p class="characteristic">Views:<span class="characteristic-span">${image.views}</span></p>
+  <p class="characteristic">Comments:<span class="characteristic-span">${image.comments}</span></p>
+  <p class="characteristic">Downloads:<span class="characteristic-span">${image.downloads}</span></p>
   </div>
 </li>`
         )
         .join('');
 
+      gallery.innerHTML = '';
+
       gallery.insertAdjacentHTML('beforeend', galleryImages);
+
+      new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
     })
     .catch(error => {
       console.error(error);
